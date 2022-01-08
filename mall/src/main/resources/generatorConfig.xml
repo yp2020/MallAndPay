@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--    windows下路径, D:\\\\-->
+    <classPathEntry location="E:\JavaLearningCode\MallAndPay\mall\mysql-connector-java-5.1.6.jar" />
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!--  表示 不再追加xml内容-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
+        <commentGenerator>
+            <!--  是否不生成注释，默认不要  -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--数据库连接的配置 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/mall?characterEncoding=utf-8"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <!--是否使用 bigDecimal，默认false。
+      false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer
+      true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal-->
+            <property name="forceBigDecimals" value="true"/>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+
+        <!--生成实体类的地址 -->
+        <javaModelGenerator targetPackage="com.study.mall.pojo" targetProject="./src/main/java">
+
+            <!--            -->
+            <property name="enableSubPackages" value="true" />
+            <!--String 类型的 调用 trim() 方法后再输出 -->
+            <!--            <property name="trimStrings" value="true" />-->
+        </javaModelGenerator>
+
+        <!--mapper.xml 的 文件的生成目录 -->
+        <sqlMapGenerator targetPackage="dao"  targetProject="./src/main/java/com/study/mall">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!--XXXmapper.java 的生成目录 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.study.mall.dao"  targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--        一个 table 对应一张表
+         tableName为对应的数据库表名
+             domainObjectName 是要生成的实体类名(可以不指定)
+             enableXXXByExample 默认为 true， 为 true 会生成一个对应Example帮助类，帮助你进行条件查询，不想要可以设为false
+         -->
+
+
+
+
+        <!--        <table tableName="mall_product"-->
+        <!--               domainObjectName="Product"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false">-->
+        <!--            <columnOverride column="detail" jdbcType="VARCHAR"/>-->
+        <!--            <columnOverride column="sub_images" jdbcType="VARCHAR"/>-->
+        <!--        </table>-->
+
+
+
+        <!--                <table tableName="mall_shipping"-->
+        <!--                       domainObjectName="Shipping"-->
+        <!--                       enableCountByExample="false"-->
+        <!--                       enableDeleteByExample="false"-->
+        <!--                       enableSelectByExample="false"-->
+        <!--                       enableUpdateByExample="false">-->
+        <!--                </table>-->
+
+
+                <table tableName="mall_order"
+                       domainObjectName="Order"
+                       enableCountByExample="false"
+                       enableDeleteByExample="false"
+                       enableSelectByExample="false"
+                       enableUpdateByExample="false">
+                </table>
+
+<!--        <table tableName="mall_order_item"-->
+<!--               domainObjectName="OrderItem"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false">-->
+<!--        </table>-->
+
+
+    </context>
+</generatorConfiguration>
