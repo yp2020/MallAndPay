@@ -39,6 +39,12 @@
             <artifactId>mysql-connector-java</artifactId>
 <!--            这里的版本不用加， 用 parent 来控制 -->
         </dependency>
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
