@@ -1,13 +1,24 @@
 package com.study.mall;
 
-import org.junit.jupiter.api.Test;
+import com.study.mall.dao.CategoryMapper;
+import com.study.mall.pojo.Category;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
-class MallApplicationTests {
+@RunWith(SpringRunner.class)
+public class MallApplicationTests {
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+        Category byId = categoryMapper.findById(100001);
+        System.out.println(byId.toString());
     }
 
 }
