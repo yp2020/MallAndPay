@@ -73,13 +73,13 @@
 
 
 
-        <!--                <table tableName="mall_shipping"-->
-        <!--                       domainObjectName="Shipping"-->
-        <!--                       enableCountByExample="false"-->
-        <!--                       enableDeleteByExample="false"-->
-        <!--                       enableSelectByExample="false"-->
-        <!--                       enableUpdateByExample="false">-->
-        <!--                </table>-->
+                        <table tableName="mall_shipping"
+                               domainObjectName="Shipping"
+                               enableCountByExample="false"
+                               enableDeleteByExample="false"
+                               enableSelectByExample="false"
+                               enableUpdateByExample="false">
+                        </table>
 
 
 <!--                <table tableName="mall_order"-->
@@ -90,13 +90,13 @@
 <!--                       enableUpdateByExample="false">-->
 <!--                </table>-->
 
-        <table tableName="mall_order_item"
-               domainObjectName="OrderItem"
-               enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false">
-        </table>
+<!--        <table tableName="mall_order_item"-->
+<!--               domainObjectName="OrderItem"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false">-->
+<!--        </table>-->
 
 
     </context>
