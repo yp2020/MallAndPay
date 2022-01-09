@@ -61,25 +61,25 @@
 
 
 
-        <!--        <table tableName="mall_product"-->
-        <!--               domainObjectName="Product"-->
-        <!--               enableCountByExample="false"-->
-        <!--               enableDeleteByExample="false"-->
-        <!--               enableSelectByExample="false"-->
-        <!--               enableUpdateByExample="false">-->
-        <!--            <columnOverride column="detail" jdbcType="VARCHAR"/>-->
-        <!--            <columnOverride column="sub_images" jdbcType="VARCHAR"/>-->
-        <!--        </table>-->
+                <table tableName="mall_product"
+                       domainObjectName="Product"
+                       enableCountByExample="false"
+                       enableDeleteByExample="false"
+                       enableSelectByExample="false"
+                       enableUpdateByExample="false">
+                    <columnOverride column="detail" jdbcType="VARCHAR"/>
+                    <columnOverride column="sub_images" jdbcType="VARCHAR"/>
+                </table>
 
 
 
-                        <table tableName="mall_shipping"
-                               domainObjectName="Shipping"
-                               enableCountByExample="false"
-                               enableDeleteByExample="false"
-                               enableSelectByExample="false"
-                               enableUpdateByExample="false">
-                        </table>
+<!--                        <table tableName="mall_shipping"-->
+<!--                               domainObjectName="Shipping"-->
+<!--                               enableCountByExample="false"-->
+<!--                               enableDeleteByExample="false"-->
+<!--                               enableSelectByExample="false"-->
+<!--                               enableUpdateByExample="false">-->
+<!--                        </table>-->
 
 
 <!--                <table tableName="mall_order"-->
