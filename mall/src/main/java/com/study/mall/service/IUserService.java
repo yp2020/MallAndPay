@@ -1,11 +1,12 @@
 package com.study.mall.service;
 
 import com.study.mall.pojo.User;
+import com.study.mall.vo.ResponseVo;
 
 public interface IUserService {
 
     /*
     注册
      */
-    void register(User user );
+    ResponseVo register(User user );
 }

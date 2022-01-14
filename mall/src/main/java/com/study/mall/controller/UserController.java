@@ -1,9 +1,14 @@
 package com.study.mall.controller;
 
 import com.study.mall.enums.ResponseEnum;
+import com.study.mall.enums.RoleEnum;
 import com.study.mall.form.UserForm;
+import com.study.mall.pojo.User;
+import com.study.mall.service.IUserService;
 import com.study.mall.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,18 +26,22 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
 
+    @Autowired
+    public IUserService userService;
+
     @PostMapping("/register")
     public ResponseVo register(@Valid  @RequestBody UserForm userForm, BindingResult bindingResult){
+
         if(bindingResult.hasErrors()){
             log.error("注册参数有误: {} {}",
                     bindingResult.getFieldError().getField(),
                     bindingResult.getFieldError().getDefaultMessage());
             return ResponseVo.error(ResponseEnum.PARAM_ERROR, bindingResult);
-            
         }
 
-      //  log.info("username={}",user.getUsername());
-        //return ResponseVo.success();
-        return  ResponseVo.error(ResponseEnum.NEED_LOGIN);
+        User user=new User();
+        BeanUtils.copyProperties(userForm,user);
+        user.setRole(RoleEnum.CUSTOMER.getCode());
+         return userService.register(user);
     }
 }
