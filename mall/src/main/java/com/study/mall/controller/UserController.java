@@ -44,4 +44,6 @@ public class UserController {
         user.setRole(RoleEnum.CUSTOMER.getCode());
          return userService.register(user);
     }
+
+
 }
