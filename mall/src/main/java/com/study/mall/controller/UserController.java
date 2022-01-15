@@ -57,18 +57,20 @@ public class UserController {
         //设置 session
         session.setAttribute(MallConst.CURRENT_USER,userResponseVo.getData());
         return userResponseVo;
-
     }
-
-
 
     @GetMapping("/user")
     public ResponseVo<User> userinfo(HttpSession session){
         User user  = (User) session.getAttribute(MallConst.CURRENT_USER);
-        if(user==null){
-            return ResponseVo.error(ResponseEnum.NEED_LOGIN);
-        }
+
         return ResponseVo.success(user);
+    }
+
+    @PostMapping("/user/logout")
+    public ResponseVo logout(HttpSession session){
+
+        session.removeAttribute(MallConst.CURRENT_USER);
+        return ResponseVo.success();
     }
 
 
