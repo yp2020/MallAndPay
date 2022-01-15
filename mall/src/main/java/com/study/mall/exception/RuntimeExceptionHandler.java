@@ -18,4 +18,5 @@ public class RuntimeExceptionHandler {
     public ResponseVo handle(RuntimeException e){
         return ResponseVo.error(ResponseEnum.ERROR,e.getMessage());
     }
+
 }
