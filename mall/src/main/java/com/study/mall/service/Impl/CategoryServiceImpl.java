@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,7 @@ public class CategoryServiceImpl implements ICategoryService {
         List<CategoryVo> categoryVoList = categories.stream()
                 .filter(e -> e.getParentId().equals(ROOT_PARENT_ID))
                 .map(this::category2CategoryVo)
+                .sorted(Comparator.comparing(CategoryVo::getSortOrder).reversed())
                 .collect(Collectors.toList());
 
         // 查询子目录
@@ -69,6 +71,8 @@ public class CategoryServiceImpl implements ICategoryService {
                     subCategoryVoList.add(subCategoryVo);
                 }
             }
+            //进行排序
+            subCategoryVoList.sort(Comparator.comparing(CategoryVo::getSortOrder).reversed());
             //完成子目录的设置
             categoryVo.setSubCategories(subCategoryVoList);
             finSubcategory(subCategoryVoList,categories);
