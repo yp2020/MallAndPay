@@ -19,6 +19,12 @@
     from mall_category
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultType="com.study.mall.pojo.Category">
+    select
+    <include refid="Base_Column_List" />
+    from mall_category
+    where status = 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mall_category
     where id = #{id,jdbcType=INTEGER}
