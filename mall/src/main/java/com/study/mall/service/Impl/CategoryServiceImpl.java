@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements ICategoryService {
                 .sorted(Comparator.comparing(CategoryVo::getSortOrder).reversed())
                 .collect(Collectors.toList());
 
-        // 查询子目录
+        // 查询并设置 子目录
         finSubcategory(categoryVoList,categories);
 
         return ResponseVo.success(categoryVoList);
