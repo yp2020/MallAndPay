@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,12 +51,28 @@ public class CategoryServiceImpl implements ICategoryService {
                 .collect(Collectors.toList());
 
         // 查询子目录
+        finSubcategory(categoryVoList,categories);
 
         return ResponseVo.success(categoryVoList);
     }
 
     private  void finSubcategory(List<CategoryVo> categoryVoList,List<Category>categories){
+        for (CategoryVo categoryVo : categoryVoList) {
+            List<CategoryVo> subCategoryVoList=new ArrayList<>();
 
+            for (Category category : categories) {
+                if(category.getParentId().equals(categoryVo.getId())){
+                    //父目录的 id 等于 子目录的 parentId
+
+                    //查询到了，
+                    CategoryVo subCategoryVo = category2CategoryVo(category);
+                    subCategoryVoList.add(subCategoryVo);
+                }
+            }
+            //完成子目录的设置
+            categoryVo.setSubCategories(subCategoryVoList);
+            finSubcategory(subCategoryVoList,categories);
+        }
     }
 
     private CategoryVo category2CategoryVo(Category category){
