@@ -7,12 +7,14 @@ import com.study.mall.service.IProductService;
 import com.study.mall.vo.ProductVo;
 import com.study.mall.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author yang
@@ -38,7 +40,13 @@ public class ProductServiceImpl implements IProductService {
         }
 
         List<Product> products = productMapper.selectByCategoryIdSet(categoryIdSet);
-        log.info("product={}",products);
-        return null ;
+
+        List<ProductVo> productVoList = products.stream().map(e -> {
+            ProductVo productVo = new ProductVo();
+            BeanUtils.copyProperties(e, productVo);
+            return productVo;
+        }).collect(Collectors.toList());
+
+        return ResponseVo.success(productVoList);
     }
 }
