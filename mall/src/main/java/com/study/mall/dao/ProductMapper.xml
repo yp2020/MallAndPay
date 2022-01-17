@@ -25,18 +25,36 @@
     from mall_product
     where id = #{id,jdbcType=INTEGER}
   </select>
-    <select id="selectByCategoryIdSet" resultType="com.study.mall.pojo.Product">
-      select
-      <include refid="Base_Column_List" />
-      from mall_product
-      where status=1
-<if test="categoryIdSet!=null">
-  and category_id in
-  <foreach collection="categoryIdSet" item="item" index="index" open="(" separator="," close=")">
-         #{item}
-  </foreach>
-</if>
-    </select>
+<!--    <select id="selectByCategoryIdSet" resultType="com.study.mall.pojo.Product">-->
+
+<!--      select-->
+<!--      <include refid="Base_Column_List" />-->
+<!--      from mall_product-->
+<!--      where status=1-->
+<!--      &lt;!&ndash;只查出在售的商品&ndash;&gt;-->
+<!--      <if test="categoryIdSet.size()>0">-->
+<!--        &lt;!&ndash; categoryIdSet() 就是 方法参数中 @Param 注解的内容 &ndash;&gt;-->
+<!--        and category_id in-->
+<!--        <foreach collection="categoryIdSet" item="item" index="index" open="(" separator="," close=")">-->
+<!--          #{item}-->
+<!--        </foreach>-->
+<!--      </if>-->
+
+<!--    </select>-->
+
+  <select id="selectByCategoryIdSet" resultType="com.study.mall.pojo.Product">
+    select
+    <include refid="Base_Column_List" />
+    from mall_product
+    where status=1
+    <if test="categoryIdSet.size()>0">
+
+      and category_id in
+      <foreach collection="categoryIdSet" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mall_product
     where id = #{id,jdbcType=INTEGER}

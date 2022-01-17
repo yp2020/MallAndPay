@@ -14,6 +14,6 @@ public class ProductServiceImplTest extends MallApplicationTests {
 
     @Test
     public void list() {
-        productService.list(100002,1,10);
+        productService.list(null,1,10);
     }
 }

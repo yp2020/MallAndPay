@@ -33,7 +33,10 @@ public class ProductServiceImpl implements IProductService {
         Set<Integer> categoryIdSet=new HashSet<>();
         categoryService.findSubCategoryId(categoryId,categoryIdSet);
         //还要加上自身的 id
-        categoryIdSet.add(categoryId);
+        if(categoryId!=null){
+            categoryIdSet.add(categoryId);
+        }
+
         List<Product> products = productMapper.selectByCategoryIdSet(categoryIdSet);
         log.info("product={}",products);
         return null ;
