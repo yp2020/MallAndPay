@@ -1,5 +1,7 @@
 package com.study.mall.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.study.mall.dao.ProductMapper;
 import com.study.mall.pojo.Product;
 import com.study.mall.service.ICategoryService;
@@ -31,7 +33,7 @@ public class ProductServiceImpl implements IProductService {
     private ProductMapper productMapper;
 
     @Override
-    public ResponseVo<List<ProductVo>> list(Integer categoryId, Integer pageNum, Integer pageSize) {
+    public ResponseVo<PageInfo> list(Integer categoryId, Integer pageNum, Integer pageSize) {
         Set<Integer> categoryIdSet=new HashSet<>();
         categoryService.findSubCategoryId(categoryId,categoryIdSet);
         //还要加上自身的 id
@@ -41,12 +43,15 @@ public class ProductServiceImpl implements IProductService {
 
         List<Product> products = productMapper.selectByCategoryIdSet(categoryIdSet);
 
+        PageHelper.startPage(pageNum,pageSize);
         List<ProductVo> productVoList = products.stream().map(e -> {
             ProductVo productVo = new ProductVo();
             BeanUtils.copyProperties(e, productVo);
             return productVo;
         }).collect(Collectors.toList());
 
-        return ResponseVo.success(productVoList);
+        PageInfo pageInfo=new PageInfo(products);
+        pageInfo.setList(productVoList);
+        return ResponseVo.success(pageInfo);
     }
 }
