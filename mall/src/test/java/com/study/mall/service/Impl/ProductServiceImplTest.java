@@ -16,7 +16,7 @@ public class ProductServiceImplTest extends MallApplicationTests {
 
     @Test
     public void list() {
-        ResponseVo<PageInfo> responseVo = productService.list(null, 1, 1);
+        ResponseVo<PageInfo> responseVo = productService.list(null, 2, 3);
         Assert.assertEquals(ResponseEnum.SUCCESS.getCode(),responseVo.getStatus());
     }
 }

@@ -41,9 +41,10 @@ public class ProductServiceImpl implements IProductService {
             categoryIdSet.add(categoryId);
         }
 
+        PageHelper.startPage(pageNum,pageSize);
         List<Product> products = productMapper.selectByCategoryIdSet(categoryIdSet);
 
-        PageHelper.startPage(pageNum,pageSize);
+
         List<ProductVo> productVoList = products.stream().map(e -> {
             ProductVo productVo = new ProductVo();
             BeanUtils.copyProperties(e, productVo);
