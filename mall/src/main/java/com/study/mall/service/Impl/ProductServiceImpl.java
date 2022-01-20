@@ -71,7 +71,7 @@ public class ProductServiceImpl implements IProductService {
         BeanUtils.copyProperties(product,productDetailVo);
         // 敏感数据处理
         productDetailVo.setStock(product.getStock()>100? 100:product.getStock());
-        
+
         return ResponseVo.success(productDetailVo);
     }
 }
