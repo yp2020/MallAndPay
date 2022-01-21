@@ -2,6 +2,7 @@ package com.study.mall.exception;
 
 import com.study.mall.enums.ResponseEnum;
 import com.study.mall.vo.ResponseVo;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +24,16 @@ public class RuntimeExceptionHandler {
     @ExceptionHandler(UserLoginException.class)
     public ResponseVo userLoginHandle(){
         return ResponseVo.error(ResponseEnum.NEED_LOGIN);
+    }
+
+    /**
+     * 表单 统一验证处理
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseVo notValidExceptionHandle(MethodArgumentNotValidException e){
+        return ResponseVo.error(ResponseEnum.PARAM_ERROR, e.getBindingResult());
     }
 
 }
