@@ -11,8 +11,10 @@ import com.study.mall.service.ICartService;
 import com.study.mall.vo.CartVo;
 import com.study.mall.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @author yang
@@ -21,9 +23,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements ICartService {
 
-
     private final static String CART_REDIS_KEY_TEMPLATE="cart_%d";
+
     private Integer quantity=1;
+
+    private Gson gson = new Gson();
 
     @Autowired
     private ProductMapper productMapper;
@@ -32,10 +36,12 @@ public class CartServiceImpl implements ICartService {
     private StringRedisTemplate redisTemplate;
 
 
-    private Gson gson = new Gson();
+
     @Override
     public ResponseVo<CartVo> add(Integer uid,CartAddForm form) {
+
         Product product = productMapper.selectByPrimaryKey(form.getProductId());
+
         //1. 商品是否存在
         if(product==null){
             return ResponseVo.error(ResponseEnum.PRODUCT_NOT_EXIST);
@@ -49,19 +55,29 @@ public class CartServiceImpl implements ICartService {
         if(product.getStock()<=0){
             return ResponseVo.error(ResponseEnum.PRODUCT_STOCK_ERROR);
         }
-
-
-        //4. 写入到 redis
+        
+        //4. 写入到 redis,也就是加入购物车
         // key:cart_ uid
 
-        Cart cart = new Cart(product.getId(),
-                quantity,
-                form.getSelected());
+        HashOperations<String, String, String> opsForHash = redisTemplate.opsForHash();
 
-        redisTemplate.opsForValue()
-                .set(String.format(CART_REDIS_KEY_TEMPLATE,uid),
+        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
+
+        String value=opsForHash.get(redisKey,String.valueOf(product.getId()));
+
+        Cart cart;
+
+        if(StringUtils.isEmpty(value)){
+            cart = new Cart(product.getId(), quantity, form.getSelected());
+        }else{
+             cart = gson.fromJson(value, Cart.class);
+             cart.setQuantity(cart.getQuantity()+quantity);
+        }
+
+        opsForHash.put(
+                redisKey,
+                String.valueOf(product.getId()),
                 gson.toJson(cart));
-
         return null;
     }
 }
