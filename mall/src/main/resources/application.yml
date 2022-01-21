@@ -4,6 +4,10 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 47.98.151.231
+    password: y123p456
+    port: 6379
 
 mybatis:
   configuration:
