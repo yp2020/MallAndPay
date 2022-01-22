@@ -7,4 +7,6 @@ import com.study.mall.vo.ResponseVo;
 public interface ICartService {
 
     ResponseVo<CartVo> add(Integer uid,CartAddForm form);
+
+    ResponseVo<CartVo> list(Integer uid);
 }
