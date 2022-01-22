@@ -10,7 +10,8 @@ import lombok.Data;
 public class Cart {
 
     /**
-     * 装进 redis 里的商品对象
+     * 商品对象
+     * 存进 redis 里面的
      */
 
     private Integer productId;
