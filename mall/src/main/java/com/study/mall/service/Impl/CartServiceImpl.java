@@ -5,6 +5,7 @@ import com.study.mall.dao.ProductMapper;
 import com.study.mall.enums.ProductStatusEnum;
 import com.study.mall.enums.ResponseEnum;
 import com.study.mall.form.CartAddForm;
+import com.study.mall.form.CartUpdateForm;
 import com.study.mall.pojo.Cart;
 import com.study.mall.pojo.Product;
 import com.study.mall.service.ICartService;
@@ -43,66 +44,9 @@ public class CartServiceImpl implements ICartService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-//    @Override
-//    public ResponseVo<CartVo> list(Integer uid) {
-//
-//        HashOperations<String, String, String> opsForHash = stringRedisTemplate.opsForHash();
-//
-//        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
-//
-//        Map<String, String> entries = opsForHash.entries(redisKey);
-//        List<CartProductVo> cartProductVoList=new ArrayList<>();
-//        Boolean selectAll=true;
-//        int cartTotalQuantity=0;
-//        BigDecimal cartTotalPrice=BigDecimal.ZERO;
-//        // 这里 本身就是 key -value
-//        // 然后 value 也是一个 map 结构，其中 key 是productId, 而 value 就是存进redis 的cart 对象
-//        for (Map.Entry<String, String> entry : entries.entrySet()) {
-//            int productId = Integer.parseInt(entry.getKey());
-//            Cart cart= gson.fromJson(entry.getValue(),Cart.class);
-//
-//            //todo 需要优化，拒绝在for 循环里 查数据库
-//            Product product = productMapper.selectByPrimaryKey(productId);
-//
-//
-//            if(product!=null){
-//                CartProductVo cartProductVo=new CartProductVo(productId,
-//                        cart.getQuantity(),
-//                        product.getName(),
-//                        product.getSubtitle(),
-//                        product.getMainImage(),
-//                        product.getPrice(),
-//                        product.getStatus(),
-//                        product.getPrice().multiply(BigDecimal.valueOf(cart.getQuantity())),
-//                        product.getStock(),
-//                        cart.getProductSelected());
-//                cartProductVoList.add(cartProductVo);
-//                if(!cart.getProductSelected()){
-//                    selectAll=false;
-//                }
-//                 //总价计算  只计算选中的
-//                if(cart.getProductSelected()){
-//                    cartTotalPrice=cartTotalPrice.add(cartProductVo.getProductTotalPrice());
-//                }
-//
-//            }
-//            cartTotalQuantity+=cart.getQuantity();
-//
-//        }
-//        CartVo cartVo=new CartVo();
-//        cartVo.setCartProductVoList(cartProductVoList);
-//
-//        cartVo.setCartTotalQuantity(cartTotalQuantity);
-//        cartVo.setSelectedAll(selectAll);
-//        cartVo.setCartTotalPrice(cartTotalPrice);
-//        return ResponseVo.success(cartVo);
-//    }
-
-
 
     @Override
     public ResponseVo<CartVo> list(Integer uid) {
-
 
         //返回 对象的属性设置
         Boolean selectAll=true;
@@ -153,6 +97,57 @@ public class CartServiceImpl implements ICartService {
         cartVo.setCartTotalQuantity(cartTotalQuantity);
         cartVo.setCartTotalPrice(cartTotalPrice);
         return ResponseVo.success(cartVo);
+    }
+
+    @Override
+    public ResponseVo<CartVo> update(Integer uid, Integer productId, CartUpdateForm cartUpdateForm) {
+
+        HashOperations<String, String, String> opsForHash = stringRedisTemplate.opsForHash();
+
+        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
+
+        String value=opsForHash.get(redisKey,String.valueOf(productId));
+
+        Cart cart;
+
+        if(StringUtils.isEmpty(value)){
+            //购物车里不存在这个商品，报错
+            return  ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
+        }
+
+
+        //购物车中存在该商品，那么就要进行状态的修改
+        cart = gson.fromJson(value, Cart.class);
+        //修改具体内容
+        if(cartUpdateForm.getQuantity()!=null&& cartUpdateForm.getQuantity()>=0){
+            cart.setQuantity(cartUpdateForm.getQuantity());
+        }
+
+        if(cartUpdateForm.getSelected()!=null){
+            cart.setProductSelected(cartUpdateForm.getSelected());
+        }
+
+        opsForHash.put(redisKey,String.valueOf(productId), gson.toJson(cart));
+        return list(uid);
+    }
+
+    @Override
+    public ResponseVo<CartVo> delete(Integer uid, Integer productId) {
+
+        HashOperations<String, String, String> opsForHash = stringRedisTemplate.opsForHash();
+
+        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
+
+        String value=opsForHash.get(redisKey,String.valueOf(productId));
+
+        Cart cart;
+
+        if(StringUtils.isEmpty(value)){
+            //购物车里不存在这个商品，报错
+            return  ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
+        }
+        opsForHash.delete(redisKey,String.valueOf(productId));
+        return list(uid);
     }
 
 
