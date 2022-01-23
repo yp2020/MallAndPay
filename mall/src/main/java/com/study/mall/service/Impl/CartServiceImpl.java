@@ -151,6 +151,77 @@ public class CartServiceImpl implements ICartService {
     }
 
 
+    public List<Cart> listForCart(Integer uid){
+        // 存入 redis 设置
+        HashOperations<String, String,String > opsForHash = stringRedisTemplate.opsForHash();
+
+        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
+
+        Map<String, String> entries = opsForHash.entries(redisKey);
+        Cart cart;
+        List<Cart> list=new ArrayList<>();
+        for (Map.Entry<String, String> entry : entries.entrySet()) {
+            cart = gson.fromJson(entry.getValue(), Cart.class);
+            list.add(cart);
+        }
+        return list;
+    }
+    @Override
+    public ResponseVo<CartVo> selectAll(Integer uid) {
+        HashOperations<String, String,String > opsForHash = stringRedisTemplate.opsForHash();
+
+        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
+
+        Map<String, String> entries = opsForHash.entries(redisKey);
+
+        List<Cart> listForCart = listForCart(uid);
+        for (Cart cart : listForCart) {
+            cart.setProductSelected(true);
+            opsForHash.put(redisKey,
+                    String.valueOf(cart.getProductId()),
+                    gson.toJson(cart));
+        }
+
+        return list(uid);
+    }
+
+    @Override
+    public ResponseVo<CartVo> unSelectAll(Integer uid) {
+        HashOperations<String, String,String > opsForHash = stringRedisTemplate.opsForHash();
+
+        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
+
+
+        List<Cart> listForCart = listForCart(uid);
+        for (Cart cart : listForCart) {
+            cart.setProductSelected(false);
+            opsForHash.put(redisKey,
+                    String.valueOf(cart.getProductId()),
+                    gson.toJson(cart));
+        }
+
+        return list(uid);
+    }
+
+    @Override
+    public ResponseVo<Integer> sum(Integer uid) {
+        HashOperations<String, String,String > opsForHash = stringRedisTemplate.opsForHash();
+
+        String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
+
+        Map<String, String> entries = opsForHash.entries(redisKey);
+
+        List<Cart> listForCart = listForCart(uid);
+        int res=0;
+        for (Cart cart : listForCart) {
+            res+=cart.getQuantity();
+        }
+
+        return ResponseVo.success(res);
+
+    }
+
+
     @Override
     public ResponseVo<CartVo> add(Integer uid,CartAddForm form) {
 

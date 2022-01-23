@@ -29,7 +29,7 @@ public class CartServiceImplTest extends MallApplicationTests {
     @Test
     public void add() {
         CartAddForm form=new CartAddForm();
-        form.setProductId(27);
+        form.setProductId(26);
         form.setSelected(true);
         ResponseVo<CartVo> responseVo = cartService.add(1, form);
         log.info("responseVo={}",gson.toJson(responseVo));
@@ -52,4 +52,23 @@ public class CartServiceImplTest extends MallApplicationTests {
         ResponseVo<CartVo> responseVo = cartService.delete(1, 29);
         log.info("responseVo={}",gson.toJson(responseVo));
     }
+
+    @Test
+    public void selectAll(){
+        ResponseVo<CartVo> responseVo = cartService.selectAll(1);
+        log.info("responseVo={}",gson.toJson(responseVo));
+    }
+
+    @Test
+    public void unSelectAll(){
+        ResponseVo<CartVo> responseVo = cartService.unSelectAll(1);
+        log.info("responseVo={}",gson.toJson(responseVo));
+    }
+
+    @Test
+    public void sum(){
+        ResponseVo<Integer> responseVo = cartService.sum(1);
+        log.info("responseVo={}",gson.toJson(responseVo));
+    }
+
 }
