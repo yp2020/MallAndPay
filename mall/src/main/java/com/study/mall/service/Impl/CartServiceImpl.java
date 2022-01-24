@@ -140,8 +140,6 @@ public class CartServiceImpl implements ICartService {
 
         String value=opsForHash.get(redisKey,String.valueOf(productId));
 
-        Cart cart;
-
         if(StringUtils.isEmpty(value)){
             //购物车里不存在这个商品，报错
             return  ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
@@ -172,8 +170,6 @@ public class CartServiceImpl implements ICartService {
 
         String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
 
-        Map<String, String> entries = opsForHash.entries(redisKey);
-
         List<Cart> listForCart = listForCart(uid);
         for (Cart cart : listForCart) {
             cart.setProductSelected(true);
@@ -181,7 +177,6 @@ public class CartServiceImpl implements ICartService {
                     String.valueOf(cart.getProductId()),
                     gson.toJson(cart));
         }
-
         return list(uid);
     }
 
