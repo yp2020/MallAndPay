@@ -3,9 +3,11 @@ package com.study.mall.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.study.mall.MallApplicationTests;
+import com.study.mall.enums.ResponseEnum;
 import com.study.mall.form.ShippingForm;
 import com.study.mall.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,6 +40,11 @@ public class IShippingServiceTest extends MallApplicationTests {
 
     @Test
     public void delete() {
+        Integer uid=1;
+        Integer shippingId=14;
+        ResponseVo responseVo = shippingService.delete(uid, shippingId);
+        log.info("responseVo={}",gson.toJson(responseVo));
+        Assert.assertEquals(ResponseEnum.SUCCESS.getCode(),responseVo.getStatus());
     }
 
     @Test

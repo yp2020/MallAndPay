@@ -29,6 +29,11 @@
     delete from mall_shipping
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByPrimaryKeyAndUid" parameterType="map">
+    delete  from mall_shipping
+    where id=#{shippingId,jdbcType=INTEGER}
+    and  user_id=#{uid,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.study.mall.pojo.Shipping">
     insert into mall_shipping (id, user_id, receiver_name, 
       receiver_phone, receiver_mobile, receiver_province, 

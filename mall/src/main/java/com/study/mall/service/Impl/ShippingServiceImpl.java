@@ -45,12 +45,25 @@ public class ShippingServiceImpl implements IShippingService {
 
     @Override
     public ResponseVo delete(Integer uid, Integer shippingId) {
-        return null;
+        int deleteByPrimaryKeyAndUid = shippingMapper.deleteByPrimaryKeyAndUid(shippingId, uid);
+        if(deleteByPrimaryKeyAndUid<=0){
+            return ResponseVo.error(ResponseEnum.DELETE_SHIPPING_FAIL,"删除地址失败");
+        }
+
+        return ResponseVo.successByMsg("删除地址成功");
     }
 
     @Override
     public ResponseVo update(Integer uid, Integer shippingId, ShippingForm shippingForm) {
-        return null;
+        Shipping shipping=new Shipping();
+        BeanUtils.copyProperties(shippingForm,shipping);
+
+        int updateByPrimaryKeySelective = shippingMapper.updateByPrimaryKeySelective(shipping);
+
+        if(updateByPrimaryKeySelective<=0){
+            return ResponseVo.error(ResponseEnum.ERROR,"更新地址失败");
+        }
+        return ResponseVo.successByMsg("更新地址成功");
     }
 
     @Override

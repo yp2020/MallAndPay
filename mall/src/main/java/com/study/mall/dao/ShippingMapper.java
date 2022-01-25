@@ -2,6 +2,7 @@ package com.study.mall.dao;
 
 import com.study.mall.pojo.Shipping;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ShippingMapper {
@@ -17,4 +18,8 @@ public interface ShippingMapper {
     int updateByPrimaryKeySelective(Shipping record);
 
     int updateByPrimaryKey(Shipping record);
+
+
+    int deleteByPrimaryKeyAndUid(@Param("shippingId") Integer shippingId,
+                                 @Param("uid") Integer uid);
 }
