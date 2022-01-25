@@ -1,5 +1,6 @@
 package com.study.mall.service;
 
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.study.mall.MallApplicationTests;
@@ -68,5 +69,9 @@ public class IShippingServiceTest extends MallApplicationTests {
 
     @Test
     public void list() {
+        ResponseVo<PageInfo> responseVo = shippingService.list(1, 2, 2);
+
+        log.info("responseVo={}",gson.toJson(responseVo));
+
     }
 }

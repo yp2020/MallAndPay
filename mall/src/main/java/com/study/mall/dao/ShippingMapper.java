@@ -4,6 +4,8 @@ import com.study.mall.pojo.Shipping;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface ShippingMapper {
 
@@ -15,9 +17,12 @@ public interface ShippingMapper {
 
     Shipping selectByPrimaryKey(Integer id);
 
+    List<Shipping> selectByUid(Integer uid);
+
     int updateByPrimaryKeySelective(Shipping record);
 
     int updateByPrimaryKey(Shipping record);
+
 
 
     int deleteByPrimaryKeyAndUid(@Param("shippingId") Integer shippingId,

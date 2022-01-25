@@ -1,5 +1,6 @@
 package com.study.mall.service.Impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.study.mall.dao.ShippingMapper;
 import com.study.mall.enums.ResponseEnum;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,6 +74,11 @@ public class ShippingServiceImpl implements IShippingService {
 
     @Override
     public ResponseVo<PageInfo> list(Integer uid, Integer pageNum, Integer pageSize) {
-        return null;
+
+        PageHelper.startPage(pageNum,pageSize);
+
+        List<Shipping> shippingList = shippingMapper.selectByUid(uid);
+        PageInfo pageInfo=new PageInfo<>(shippingList);
+        return ResponseVo.success(pageInfo);
     }
 }

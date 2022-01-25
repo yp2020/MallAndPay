@@ -25,6 +25,12 @@
     from mall_shipping
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUid" resultType="com.study.mall.pojo.Shipping">
+    select
+    <include refid="Base_Column_List" />
+    from mall_shipping
+    where user_id = #{uid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mall_shipping
     where id = #{id,jdbcType=INTEGER}
