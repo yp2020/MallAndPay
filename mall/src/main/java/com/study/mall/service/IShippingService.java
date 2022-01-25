@@ -17,6 +17,7 @@ public interface IShippingService {
      * @param shippingForm
      * @return
      */
+
     ResponseVo<Map<String,Integer>> add(Integer uid, ShippingForm shippingForm);
 
     ResponseVo delete(Integer uid, Integer shippingId);
