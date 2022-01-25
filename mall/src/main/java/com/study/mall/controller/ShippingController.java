@@ -29,12 +29,14 @@ public class ShippingController {
                                          @Valid @RequestBody ShippingForm shippingForm) {
 
         User user =(User) session.getAttribute(MallConst.CURRENT_USER);
+
         return shippingService.add(user.getId(),shippingForm);
     }
 
     @DeleteMapping("/shippings/{shippingId}")
     ResponseVo delete(HttpSession session,
                       @PathVariable Integer shippingId){
+
         User user =(User) session.getAttribute(MallConst.CURRENT_USER);
         return shippingService.delete(user.getId(),shippingId);
     }

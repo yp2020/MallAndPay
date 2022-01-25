@@ -1,16 +1,15 @@
-package com.study.mall.pojo;
+package com.study.mall.vo;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
+/**
+ * @author yang
+ * @date 2022/01/25 20:41
+ **/
 @Data
-public class OrderItem {
-
-    private Integer id;
-
-    private Integer userId;
+public class OrderItemVo {
 
     private Long orderNo;
 
@@ -20,13 +19,17 @@ public class OrderItem {
 
     private String productImage;
 
+
+    /**
+     * 交易完成时的 价格
+     */
     private BigDecimal currentUnitPrice;
 
+    /**
+     * 交易完成时 数量
+     */
     private Integer quantity;
 
     private BigDecimal totalPrice;
 
-    private Date createTime;
-
-    private Date updateTime;
 }

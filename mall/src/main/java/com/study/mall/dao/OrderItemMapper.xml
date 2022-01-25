@@ -111,6 +111,26 @@
       </if>
     </trim>
   </insert>
+
+  <insert id="batchInsert" parameterType="list">
+
+    insert into mall_order_item (user_id, order_no,
+    product_id, product_name, product_image,
+    current_unit_price, quantity, total_price)
+    values
+    <foreach collection="orderItemList" index="index" item="item" separator=",">
+      (     #{item.userId},
+      #{item.orderNo},
+      #{item.productId},
+      #{item.productName},
+      #{item.productImage},
+      #{item.currentUnitPrice},
+      #{item.quantity},
+      #{item.totalPrice}
+      )
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.study.mall.pojo.OrderItem">
     update mall_order_item
     <set>

@@ -19,8 +19,10 @@ public interface ICartService {
 
     ResponseVo<CartVo> unSelectAll(Integer uid);
 
+    /**
+     * @param uid
+     * @return 获取购物车中所有商品数量总和
+     */
     ResponseVo<Integer> sum(Integer uid);
-
-
 
 }

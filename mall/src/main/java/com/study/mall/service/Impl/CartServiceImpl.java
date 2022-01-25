@@ -148,7 +148,11 @@ public class CartServiceImpl implements ICartService {
         return list(uid);
     }
 
-
+    /**
+     * 购物车中的所有商品
+     * @param uid
+     * @return
+     */
     public List<Cart> listForCart(Integer uid){
         // 存入 redis 设置
         HashOperations<String, String,String > opsForHash = stringRedisTemplate.opsForHash();
