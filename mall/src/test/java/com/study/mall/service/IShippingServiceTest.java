@@ -49,6 +49,21 @@ public class IShippingServiceTest extends MallApplicationTests {
 
     @Test
     public void update() {
+        Integer uid=1;
+        Integer shippingId=15;
+        ShippingForm form=new ShippingForm(
+                "路人乙",
+                "1123344",
+                "17623456673",
+                "福建省",
+                "不知道是什么市",
+                "某某县",
+                "某某镇某某村某某组某某号",
+                "326678");
+        ResponseVo<Map<String, Integer>> responseVo = shippingService.update(uid,shippingId,form);
+
+        log.info("responseVo={}",gson.toJson(responseVo));
+        Assert.assertEquals(responseVo.getStatus(),ResponseEnum.SUCCESS.getCode());
     }
 
     @Test

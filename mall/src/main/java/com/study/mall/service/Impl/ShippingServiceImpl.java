@@ -55,8 +55,12 @@ public class ShippingServiceImpl implements IShippingService {
 
     @Override
     public ResponseVo update(Integer uid, Integer shippingId, ShippingForm shippingForm) {
+
         Shipping shipping=new Shipping();
         BeanUtils.copyProperties(shippingForm,shipping);
+        //新生成的对象是没有下面两个值的
+        shipping.setUserId(uid);
+        shipping.setId(shippingId);
 
         int updateByPrimaryKeySelective = shippingMapper.updateByPrimaryKeySelective(shipping);
 
