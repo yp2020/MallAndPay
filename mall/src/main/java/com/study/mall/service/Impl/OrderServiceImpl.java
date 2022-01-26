@@ -186,16 +186,28 @@ public class OrderServiceImpl implements IOrderService {
         PageHelper.startPage(pageNum,pageSize);
 
         List<Order> orderList = orderMapper.selectByUid(uid);
-        Set<Long> orderNoSet = orderList.stream().map(Order::getOrderNo).collect(Collectors.toSet());
+
+        Set<Long> orderNoSet = orderList
+                .stream()
+                .map(Order::getOrderNo)
+                .collect(Collectors.toSet());
+        //通过订单号查出 订单里的子表 内容
         List<OrderItem> orderItemList = orderItemMapper.selectByOrderNoSet(orderNoSet);
 
+        // 转成 订单号: 订单列表 的对应关系
         Map<Long,List<OrderItem>> orderItemMap=orderItemList.stream()
                 .collect(Collectors.groupingBy(OrderItem::getOrderNo));
+         //取出所有的收货地址的 id
+        Set<Integer> shippingIdSet = orderList
+                .stream()
+                .map(Order::getShippingId)
+                .collect(Collectors.toSet());
 
-        Set<Integer> shippingIdSet = orderList.stream().map(Order::getShippingId).collect(Collectors.toSet());
         List<Shipping> shippingList = shippingMapper.selectByIdSet(shippingIdSet);
 
-        Map<Integer, Shipping> shippingMap=shippingList.stream().collect(Collectors.toMap(Shipping::getId,shipping -> shipping));
+        Map<Integer, Shipping> shippingMap= shippingList
+                        .stream()
+                .collect(Collectors.toMap(Shipping::getId,shipping -> shipping));
 
         List<OrderVo> orderVoList=new ArrayList<>();
 
@@ -214,7 +226,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public ResponseVo<OrderVo> detail(Integer uid, Long orderVo) {
-        return null;
+       
     }
 
     @Override

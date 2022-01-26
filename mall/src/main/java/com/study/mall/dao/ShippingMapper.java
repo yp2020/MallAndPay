@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface ShippingMapper {
@@ -30,4 +31,7 @@ public interface ShippingMapper {
 
     int deleteByPrimaryKeyAndUid(@Param("shippingId") Integer shippingId,
                                  @Param("uid") Integer uid);
+
+
+    List<Shipping> selectByIdSet(@Param("idSet") Set idSet);
 }

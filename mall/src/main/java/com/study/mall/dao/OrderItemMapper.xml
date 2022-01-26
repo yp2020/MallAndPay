@@ -24,6 +24,21 @@
     from mall_order_item
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByOrderNoSet" resultType="com.study.mall.pojo.OrderItem">
+      select
+      <include refid="Base_Column_List" />
+      from mall_order_item
+      <where>
+        <if test="orderNoSet.size()>0">
+          order_no in
+          <foreach collection="orderNoSet" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </where>
+
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mall_order_item
     where id = #{id,jdbcType=INTEGER}

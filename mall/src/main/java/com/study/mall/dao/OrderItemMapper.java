@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface OrderItemMapper {
@@ -21,4 +22,6 @@ public interface OrderItemMapper {
     int updateByPrimaryKey(OrderItem record);
 
     int batchInsert(@Param("orderItemList") List<OrderItem> orderItemList);
+
+    List<OrderItem> selectByOrderNoSet(@Param("orderNoSet") Set<Long> orderNoSet);
 }
