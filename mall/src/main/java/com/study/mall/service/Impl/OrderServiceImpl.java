@@ -271,6 +271,30 @@ public class OrderServiceImpl implements IOrderService {
         return ResponseVo.success();
     }
 
+    @Override
+    public void paid(Long orderNo) {
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        //先根据订单号查询订单
+        if(order==null){
+            //错误比较严重，可以加上短信告警功能。
+            throw new RuntimeException(ResponseEnum.ORDER_NOT_EXIST.getMsg()+"订单号为: "+orderNo);
+        }
+
+
+        //设定只有未付款才可以变成已经付款
+        if(!order.getStatus().equals(OrderStatusEnum.NO_PAY.getCode())){
+            throw new RuntimeException(ResponseEnum.ORDER_STATUS_ERROR.getMsg()+"订单号为: "+orderNo);
+        }
+
+        order.setStatus(OrderStatusEnum.PAID.getCode());
+        //支付时间应该从 PayInfo 中拿， PayInfo 应该有一个时间
+        order.setPaymentTime(new Date());
+
+        int row = orderMapper.updateByPrimaryKeySelective(order);
+        if(row<=0){
+            throw  new RuntimeException("将订单更新为已经支付状态失败, 原状态为: "+order.getStatus());
+        }
+    }
 
 
     /**

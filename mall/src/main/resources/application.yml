@@ -8,6 +8,11 @@ spring:
     host: 47.98.151.231
     password: y123p456
     port: 6379
+  rabbitmq:
+    addresses: 47.98.151.231
+    port: 5672
+    username: guest
+    password: guest
 
 mybatis:
   configuration:
