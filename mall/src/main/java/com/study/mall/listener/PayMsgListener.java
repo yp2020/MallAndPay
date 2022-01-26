@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
  * @author yang
  * @date 2022/01/26 11:59
  **/
+
+
 @Component
 @RabbitListener(queues = "payNotify")
 @Slf4j
