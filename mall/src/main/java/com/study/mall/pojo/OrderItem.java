@@ -16,6 +16,7 @@ public class OrderItem {
 
     private Integer productId;
 
+
     private String productName;
 
     private String productImage;

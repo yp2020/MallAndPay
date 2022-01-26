@@ -225,19 +225,53 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public ResponseVo<OrderVo> detail(Integer uid, Long orderVo) {
-       
+    public ResponseVo<OrderVo> detail(Integer uid, Long orderNo) {
+
+        //先根据订单号查询订单
+        Order order = orderMapper.selectByOrderNo(orderNo);
+
+        if(order==null||!order.getUserId().equals(uid)){
+            return  ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
+        }
+
+        Set<Long> orderNoSet=new HashSet<>();
+        orderNoSet.add(order.getOrderNo());
+
+        List<OrderItem> orderItemList = orderItemMapper.selectByOrderNoSet(orderNoSet);
+
+        Shipping shipping = shippingMapper.selectByPrimaryKey(order.getShippingId());
+
+        OrderVo orderVo = buildOrderVo(order, orderItemList, shipping);
+
+        return ResponseVo.success(orderVo);
     }
 
     @Override
     public ResponseVo cancel(Integer uid, Long orderNo) {
-        return null;
+
+        Order order = orderMapper.selectByOrderNo(orderNo);
+
+        //先根据订单号查询订单并且 校验订单是否属于用户
+        if(order==null||!order.getUserId().equals(uid)){
+            return  ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
+        }
+
+        //设定只有未付款才可以取消订单
+        if(!order.getStatus().equals(OrderStatusEnum.NO_PAY.getCode())){
+            return ResponseVo.error(ResponseEnum.ORDER_STATUS_ERROR);
+        }
+        // 设定新的状态
+        order.setStatus(OrderStatusEnum.CANCELED.getCode());
+        order.setCloseTime(new Date());
+
+        int row = orderMapper.updateByPrimaryKeySelective(order);
+        if(row<=0){
+            return ResponseVo.error(ResponseEnum.ERROR);
+        }
+        return ResponseVo.success();
     }
 
-    @Override
-    public void paid(Long orderNo) {
 
-    }
 
     /**
      * 用时间戳解决这个 订单号
