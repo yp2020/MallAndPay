@@ -3,6 +3,8 @@ package com.study.mall.dao;
 import com.study.mall.pojo.Order;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface OrderMapper {
 
@@ -17,4 +19,5 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+    List<Order> selectByUid(Integer uid);
 }
